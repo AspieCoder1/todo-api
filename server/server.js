@@ -15,7 +15,7 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
-//POST /todos
+// POST /todos
 app.post('/todos', (req, res) => {
   var todo = new Todo({
     text: req.body.text
@@ -28,7 +28,7 @@ app.post('/todos', (req, res) => {
   });
 });
 
-//GET /todos
+// GET /todos
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
     res.send({todos});
@@ -37,7 +37,7 @@ app.get('/todos', (req, res) => {
   });
 });
 
-//GET /todos/:id
+// GET /todos/:id
 app.get('/todos/:id', (req, res) => {
   var id = req.params.id;
 
@@ -56,7 +56,7 @@ app.get('/todos/:id', (req, res) => {
   });
 });
 
-//DELETE /todos/:id
+// DELETE /todos/:id
 app.delete('/todos/:id', (req, res) => {
   var id = req.params.id;
 
@@ -75,7 +75,7 @@ app.delete('/todos/:id', (req, res) => {
   });
 });
 
-//PATCH /todos/:id
+// PATCH /todos/:id
 app.patch('/todos/:id', (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
@@ -102,7 +102,7 @@ app.patch('/todos/:id', (req, res) => {
   })
 });
 
-//POST /users
+// POST /users
 app.post('/users', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   var user = new User(body);
@@ -116,7 +116,7 @@ app.post('/users', (req, res) => {
   })
 });
 
-//GET /users/me
+// GET /users/me
 app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user)
 });
@@ -133,6 +133,15 @@ app.post('/users/login', (req, res) => {
     res.status(400).send();
   });
 });
+
+// DELETE /users/me/token
+app.delete('/users/me/token', authenticate, (req, res) => {
+  req.user.removeToken(req.token).then(() => {
+    res.status(200).send();
+  }).catch(() => {
+    res.status(400).send();
+  })
+})
 
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);
