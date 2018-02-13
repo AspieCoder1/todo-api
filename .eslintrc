@@ -1,0 +1,15 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "indent":2,
+    "no-console":"off",
+    "no-undef":"off",
+    "no-unused-vars":"off"
+  }
+}
